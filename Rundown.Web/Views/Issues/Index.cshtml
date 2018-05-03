@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Rundown.Models.Issue>
+
+@{
+    ViewBag.Title = "Issues";
+}
+
+<h2>Issues</h2>
+
+<p>
+    @Html.ActionLink("Add New", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">   @Html.DisplayFor(modelItem => item.Title)</h3>
+        </div>
+        <div class="panel-body">
+            <br /> Status: @Html.DisplayFor(modelItem => item.Status)
+            <p>
+                @Html.DisplayFor(modelItem => item.Description)
+            </p>
+            <br />Expected Resolution: @Html.DisplayFor(modelItem => item.ExpectedResolutionDate)
+            <br />Actual Resolution: @Html.DisplayFor(modelItem => item.ActualResolutionDate)
+        </div>
+        <div class="panel-footer"> </div>
+    </div>
+
+} 
