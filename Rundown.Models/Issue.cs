@@ -17,5 +17,20 @@ namespace Rundown.Models
         public DateTime? ActualResolutionDate { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public Issue()
+        {
+        }
+
+        public Issue(IssueEdit issueEdit)
+        {
+            ActualResolutionDate = issueEdit.ActualResolutionDate;
+            Description = issueEdit.Description;
+            ExpectedResolutionDate = issueEdit.ExpectedResolutionDate;
+            IsDeleted = issueEdit.IsDeleted;
+            IssueId = issueEdit.IssueId;
+            Status = issueEdit.Status;
+            Title = issueEdit.Title;
+        }
     }
 }

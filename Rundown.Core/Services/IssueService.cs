@@ -23,5 +23,19 @@ namespace Rundown.Core.Services
             return _issueRepository.GetStatuses();
         }
 
+        public Issue GetIssue(int id)
+        {
+            return _issueRepository.GetIssue(id);
+        }
+
+        public void UpdateIssue(Issue issue)
+        {
+            _issueRepository.UpdateIssue(issue);
+        }
+
+        public void DeleteIssue(int id)
+        {
+            _issueRepository.DeleteIssue(id);
+        }
     }
 }

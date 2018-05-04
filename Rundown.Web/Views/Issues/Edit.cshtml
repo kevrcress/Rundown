@@ -1,12 +1,10 @@
 ﻿@model Rundown.Models.IssueEdit
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-
-
-<h2>New Issue</h2>
+<h2>Edit Issue #@Model.IssueId</h2>
 
 @using (Html.BeginForm())
 {
@@ -16,6 +14,8 @@
         <h4></h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IssueId)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ExpectedResolutionDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ExpectedResolutionDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.EditorFor(model => model.ExpectedResolutionDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ExpectedResolutionDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,11 +58,22 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+
+<div>
+
+    @using (Html.BeginForm("Delete", "Issues", FormMethod.Post, new { id = "deleteForm", @class = "navbar-right" }))
+    {
+        @Html.HiddenFor(model => model.IssueId)
+        <a href="javascript:document.getElementById('deleteForm').submit()">
+            <span>Delete Issue</span>
+        </a>
+    }
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -71,5 +82,3 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
-

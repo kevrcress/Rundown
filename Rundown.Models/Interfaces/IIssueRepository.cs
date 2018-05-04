@@ -6,7 +6,13 @@ namespace Rundown.Models.Interfaces
     {
         List<Issue> GetIssues();
 
+        Issue GetIssue(int id);
+
         void AddIssue(Issue issue);
+
+        void UpdateIssue(Issue issue);
+
+        void DeleteIssue(int id);
 
         Dictionary<int, string> GetStatuses();
     }

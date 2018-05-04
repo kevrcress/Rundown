@@ -1,4 +1,5 @@
-﻿using Rundown.Models;
+﻿using Rundown.Core.Services;
+using Rundown.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -7,19 +8,20 @@ namespace Rundown.Web.Controllers
 {
     public class IssuesController : Controller
     {
+        private IssueService _issueService = new IssueService();
+
         // GET: Issues
         public ActionResult Index()
         {
-            var model = new List<Rundown.Models.Issue>();
-            var issueService = new Core.Services.IssueService();
-            model = issueService.GetIssues();
+            var model = new List<Issue>();
+            model = _issueService.GetIssues();
             return View(model);
         }
 
         // GET: Issues/Details/5
         public ActionResult Details(int id)
         {
-            var model = new Rundown.Models.Issue();
+            var model = new Issue();
             return View(model);
         }
 
@@ -27,8 +29,7 @@ namespace Rundown.Web.Controllers
         public ActionResult Create()
         {
             var model = new Rundown.Models.IssueEdit();
-            var issueService = new Rundown.Core.Services.IssueService();
-            model.AllStatuses = issueService.GetStatuses();
+            model.AllStatuses = _issueService.GetStatuses();
             return View(model);
         }
 
@@ -38,8 +39,7 @@ namespace Rundown.Web.Controllers
         {
             try
             {
-                var issueService = new Rundown.Core.Services.IssueService();
-                issueService.AddIssue(newIssue);
+                _issueService.AddIssue(newIssue);
 
                 return RedirectToAction("Index");
             }
@@ -52,17 +52,20 @@ namespace Rundown.Web.Controllers
         // GET: Issues/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var issue = _issueService.GetIssue(id);
+            var issueEdit = new IssueEdit(issue);
+            issueEdit.AllStatuses = _issueService.GetStatuses();
+            return View(issueEdit);
         }
 
         // POST: Issues/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(IssueEdit modifiedIssue)
         {
             try
             {
-                // TODO: Add update logic here
-
+                var issue = new Issue(modifiedIssue);
+                _issueService.UpdateIssue(issue);
                 return RedirectToAction("Index");
             }
             catch
@@ -71,23 +74,16 @@ namespace Rundown.Web.Controllers
             }
         }
 
-        // GET: Issues/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Issues/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int issueId)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                _issueService.DeleteIssue(issueId);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
